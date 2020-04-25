@@ -1,0 +1,23 @@
+{
+  "name": "blockchain",
+  "version": "1.0.0",
+  "description": "dapp",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kanema20/blockchain.git"
+  },
+  "author": "kma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kanema20/blockchain/issues"
+  },
+  "homepage": "https://github.com/kanema20/blockchain#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
