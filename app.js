@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require("body-parser");
 const dbConnect = require('./db');
+const {save_user_information} = require('./models/server_db');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -17,7 +18,7 @@ app.use((req, res, next) => {
      next();
 }); //postman is just a testing service
 
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
     var email = req.body.email;
     var amount = req.body.amount;
 
@@ -31,13 +32,15 @@ app.post('/', (req, res) => {
     if (email == "") {
         //text parsing - regex needed most likely
     }
-    
-    res.send({"amount": amount,
-              "email": email});
+
+    var result = await save_user_information({"amount": amount, "email": email});
+
+    res.send(result);
 });
 
 app.get('/', (req, res) => {
     res.send('web 2.0');
+    dbConnect.getConnection();
 });
 
 

@@ -21,5 +21,9 @@ function getConnection() {
         }
     });
 }
+//getConnection();
 
-module.export = connection, getConnection;
+module.exports = {
+    connection, 
+    getConnection
+};
