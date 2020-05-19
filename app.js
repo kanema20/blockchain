@@ -3,9 +3,11 @@ const app = express();
 const bodyParser = require("body-parser");
 const dbConnect = require('./db');
 const {save_user_information} = require('./models/server_db');
+const publicPath = path.join(__dirname, './public');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(express.static(publicPath));
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); //* = access to all origins
@@ -30,11 +32,17 @@ app.post('/', async (req, res) => {
     }
 
     if (email == "") {
-        //text parsing - regex needed most likely
+        //text parsing - regex needed
     }
 
     var result = await save_user_information({"amount": amount, "email": email});
 
+    res.send(result);
+});
+
+app.get('/get_total_amount', async (req, res) => {
+    var result = await get_total_amount();
+    console.log(result);
     res.send(result);
 });
 
