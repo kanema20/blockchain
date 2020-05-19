@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require("body-parser");
 const dbConnect = require('./db');
+var path = require('path');
 const {save_user_information} = require('./models/server_db');
 const publicPath = path.join(__dirname, './public');
 
