@@ -11,6 +11,8 @@ function getConnection() {
         if (err) {
             console.log("error while connecting to db: " + err);
             setTimeout(getConnection, 2000);
+        } else {
+            console.log("we in");
         }
     });
     connection.on('error', function(err) {
