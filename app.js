@@ -15,7 +15,7 @@ app.use(express.static(publicPath));
 paypal.configure({
     'mode': 'sandbox', //sandbox or live
     'client_id': 'AQxhAnefmeytC4ugZUBMIvLz33G6YdC8ytzyk9EvgpDmDUMqsAujbhuHvEBSBOpryABpQJrgyy04d2oM',
-    'client_secret': 'EDvZBGTsjgdMsSk6Te2ul2zz-g8Vqq5WCNIS4jRSpmsEoWtQcGCKTD9QkrFeggiktC8usj2u3T32_KDD'
+    'client_secret': ''
   });
 
 app.use((req, res, next) => {
@@ -46,7 +46,52 @@ app.post('/post_info', async (req, res) => {
 
     var result = await save_user_information({"amount": amount, "email": email});
 
-    res.send(result);
+    var create_payment_json = {
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"
+        },
+        "redirect_urls": {
+            "return_url": "http://localhost:3000/success",
+            "cancel_url": "http://localhost:3000/cancel"
+        },
+        "transactions": [{
+            "item_list": {
+                "items": [{
+                    "name": "Lottery",
+                    "sku": "Funding",
+                    "price": amount,
+                    "currency": "USD",
+                    "quantity": 1
+                }]
+            },
+            "amount": {
+                "currency": "USD",
+                "total": amount
+            },
+            "payee": {
+                'email': '' //paypal email account
+            },
+            "description": "Lottery Purchase"
+        }]
+    };
+    
+    
+    paypal.payment.create(create_payment_json, function (error, payment) {
+        if (error) {
+            throw error;
+        } else {
+            console.log("Create Payment Response");
+            console.log(payment);
+            for (var i=0; i< payment.links.length;i++) {
+                if (payment.links[i].rel == 'approval_url') {
+                    return res.send(payment.links[i].href);
+                }
+            }
+        }
+    });
+
+    //res.send(result);
 });
 
 app.get('/get_total_amount', async (req, res) => {
