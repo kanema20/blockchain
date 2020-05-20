@@ -3,7 +3,7 @@ const db = require('../db');
 
 
 save_user_information = (data) => new Promise((resolve, reject) => {
-    db.query('INSERT INTO lottery_information SET ?', data, function (err, results, fields) {
+    db.query('INSERT INTO [blockchain_db].[dbo].[lottery_information] SET ?', data, function (err, results, fields) {
         if (err) {
             reject("could not insert into lottery information");
         } else {
@@ -14,7 +14,7 @@ save_user_information = (data) => new Promise((resolve, reject) => {
 })
 
 get_total_amount = (data) => new Promise((resolve, reject) => {
-    db.query('SELECT SUM(amount) as total_amount from lottery_information',null, function (err, results, fields) {
+    db.query('SELECT SUM(amount) as total_amount from [blockchain_db].[dbo].[lottery_information]',null, function (err, results, fields) {
         if (err) {
             reject("could not get total amount");
         } else {

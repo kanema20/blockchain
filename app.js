@@ -5,10 +5,18 @@ const dbConnect = require('./db');
 var path = require('path');
 const {save_user_information} = require('./models/server_db');
 const publicPath = path.join(__dirname, './public');
+const paypal = require('paypal-rest-sdk');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(express.static(publicPath));
+
+//paypal sdk configuration
+paypal.configure({
+    'mode': 'sandbox', //sandbox or live
+    'client_id': 'AQxhAnefmeytC4ugZUBMIvLz33G6YdC8ytzyk9EvgpDmDUMqsAujbhuHvEBSBOpryABpQJrgyy04d2oM',
+    'client_secret': 'EDvZBGTsjgdMsSk6Te2ul2zz-g8Vqq5WCNIS4jRSpmsEoWtQcGCKTD9QkrFeggiktC8usj2u3T32_KDD'
+  });
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*'); //* = access to all origins
@@ -21,7 +29,7 @@ app.use((req, res, next) => {
      next();
 }); //postman is just a testing service
 
-app.post('/', async (req, res) => {
+app.post('/post_info', async (req, res) => {
     var email = req.body.email;
     var amount = req.body.amount;
 

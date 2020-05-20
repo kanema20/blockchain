@@ -2,7 +2,7 @@ var dbConfig = {
     database: 'master',
     server: 'DESKTOP-HC9JDO2\\SQLEXPRESS',
     //port: '3005',
-    driver: 'msnodesqlv8',
+    driver: 'tedious',
     //driver: {SQL Server Native Client 11.0},
     options: {
         trustedConnection: true
