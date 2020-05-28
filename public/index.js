@@ -12,7 +12,7 @@ class App extends React.Component {
         //get info and add to the states
         //mounts info we get or causes an error on the screen
         const result = await axios.get('/get_total_amount');
-        console.log(result.data["0"].total_amount);
+        //console.log(result.data["0"].total_amount);
         this.setState({total_amount: result.data["0"].total_amount});
     }
     onSubmit = async (e) => {
